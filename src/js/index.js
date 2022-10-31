@@ -12,6 +12,15 @@ const plugin = ({ addFilter, utils }) => {
     // required file size
     const validateFile = (file, bounds, measure) => new Promise((resolve, reject) => {
 
+        const setSizeMetadata = (size) => {
+            // × item.setMetadata('size',size)
+            // `item` not available until addFilter('DID_LOAD_ITEM'
+            // so attach size to `file`
+            file.customMetadata = size;
+            
+            return size;
+        };
+        
         const onReceiveSize = ({ width, height }) => {
 
             const {minWidth, minHeight, maxWidth, maxHeight, minResolution, maxResolution } = bounds;
